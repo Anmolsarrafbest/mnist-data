@@ -48,8 +48,17 @@ except Exception as e:
     st.error(f"Error loading model: {e}. Please ensure 'my_convo_model.keras' exists.")
     st.stop()
 
-# Camera Input
-img_file_buffer = st.camera_input("Take a picture")
+# Input methods
+tab1, tab2 = st.tabs(["Camera", "Upload"])
+
+with tab1:
+    camera_image = st.camera_input("Take a picture")
+
+with tab2:
+    upload_image = st.file_uploader("Upload an image (or take photo)", type=["png", "jpg", "jpeg"])
+
+# Use whichever input is available
+img_file_buffer = camera_image if camera_image is not None else upload_image
 
 def process_image(img_buffer):
     # 1. Open image
